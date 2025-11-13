@@ -1,5 +1,4 @@
 import streamlit as st
-import matplotlib.pyplot as plt
 from mplsoccer import VerticalPitch
 import pandas as pd
 import json
@@ -65,3 +64,4 @@ def plot_shots(df, ax, pitch):
 plot_shots(filtered_df, ax, pitch)
 
 st.pyplot(fig)
+
