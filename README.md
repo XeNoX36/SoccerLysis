@@ -10,11 +10,9 @@ The project leverages:
 
 **mplsoccer** (VerticalPitch) — for drawing a football pitch and plotting shot coordinates. 
 
-**Pandas** — for data filtering and transformation.  
+**Pandas** — for data filtering and transformation. 
 
-**Matplotlib** — for rendering visual charts.  
-
-![View App](https://socceranalyst.streamlit.app/)
+View App - https://socceranalyst.streamlit.app/
 
 **2. Data Description**  
 
