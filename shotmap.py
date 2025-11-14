@@ -18,7 +18,7 @@ st.title("Euro 2024 Shot Map")
 st.subheader("Filter to any team/player to analyzes all of their shots")
 
 # loading data
-df = pd.read_csv(r"c:\Users\USER\Documents\CODES\Python Work to Do\euros_2024_shot_map.csv")
+df = pd.read_csv("euros_2024_shot_map.csv")
 df = df[df["type"] == "Shot"].reset_index(drop=True)
 df["location"] = df["location"].apply(json.loads)
 
@@ -64,4 +64,5 @@ def plot_shots(df, ax, pitch):
 plot_shots(filtered_df, ax, pitch)
 
 st.pyplot(fig)
+
 
