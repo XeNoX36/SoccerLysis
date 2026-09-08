@@ -54,7 +54,7 @@ View App: https://soccerlysis-app.streamlit.app/
    pip install streamlit pandas matplotlib mplsoccer
    ```
 
-3. Place the dataset in the project root (see [Data](#data) below).
+3. Place the dataset in the project root (see [Data](#data) above).
 
 ### Running the App
 
