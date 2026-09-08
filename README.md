@@ -1,4 +1,4 @@
-# Project Report
+[# Project Report
 
 **1. Project Overview**  
 
@@ -12,7 +12,7 @@ The project leverages:
 
 **Pandas** — for data filtering and transformation. 
 
-View App - https://socceranalyst.streamlit.app/
+View App - https://soccerlysis-app.streamlit.app/
 
 **2. Data Description**  
 
@@ -108,3 +108,4 @@ Consistent goal outcomes (gold bubbles) in similar coordinates may reveal prefer
 **D. Tactical & Defensive Insights**  
 Comparing team maps highlights defensive weaknesses — e.g., repeated concessions from similar positions.  
 Teams with spread-out shot maps tend to have flexible attacking strategies.  
+](https://socceranalyst.streamlit.app/)
