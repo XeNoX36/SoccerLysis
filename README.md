@@ -1,111 +1,128 @@
-[# Project Report
+# ⚽ SoccerLysis | UEFA Euro 2024 Shot Analysis
 
-**1. Project Overview**  
+An interactive **Streamlit** dashboard for exploring shot data, expected goals (xG), and finishing performance from **UEFA Euro 2024**, built with `pandas`, `matplotlib`, and `mplsoccer`.
 
-This project implements a Streamlit-based data visualization app that displays shot locations for Euro 2024 matches. The app helps users analyze team and player shooting patterns — highlighting where shots were taken, their expected goal (xG) value, and whether they resulted in goals.  
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-The project leverages:
+## Overview
 
-**Streamlit** — for the interactive dashboard UI. 
+SoccerLysis lets you filter Euro 2024 shot event data by team, player, and shot outcome, then visualizes:
 
-**mplsoccer** (VerticalPitch) — for drawing a football pitch and plotting shot coordinates. 
+- A **vertical pitch shot map**, with marker size scaled to xG and color indicating goals vs. non-goals
+- Key performance **KPIs**: shots, goals, total xG, average xG per shot, and conversion rate
+- A **goals vs. expected goals** snapshot showing over/under-performance relative to xG
+- A **shot outcome breakdown** table
+- A **player shooting leaderboard** ranked by goals, xG, and shot volume
 
-**Pandas** — for data filtering and transformation. 
+## Features
 
-View App - https://soccerlysis-app.streamlit.app/
+- 🎯 Interactive filters for team, player, and shot outcome
+- 📊 Real-time KPI cards (shots, goals, xG, conversion rate)
+- 🟢 Vertical half-pitch shot map with goal/non-goal color coding
+- 📈 Finishing performance snapshot (goals minus xG)
+- 🏆 Sortable player leaderboard
+- 🎨 Custom dark-themed UI styling
 
-**2. Data Description**  
+## Demo
 
-Column	Description  
-team -	Name of the team taking the shot  
-player -	Player who took the shot  
-type -	Event type (filtered to "Shot")  
-location -	JSON-formatted list [x, y] indicating shot coordinates on the pitch  
-shot_outcome -	Describes if the shot was a goal, saved, blocked, etc.  
-shot_statsbomb_xg -	Expected goals (xG) value assigned to the shot  
+<!-- Add a screenshot or GIF of the app here -->
+<!-- ![SoccerLysis Screenshot](docs/screenshot.png) -->
 
-**3. Workflow Summary**  
+## Getting Started
 
-**Step 1 — Data Loading & Cleaning** 
-```python
-df = pd.read_csv("euros_2024_shot_map.csv")
-df = df[df["type"] == "Shot"].reset_index(drop=True)
-df["location"] = df["location"].apply(json.loads)
-Filters only events classified as “Shot”.
+### Prerequisites
+
+- Python 3.9+
+- pip
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/<your-username>/soccerlysis.git
+   cd soccerlysis
+   ```
+
+2. Install the required dependencies:
+
+   ```bash
+   pip install streamlit pandas matplotlib mplsoccer
+   ```
+
+3. Place the dataset in the project root (see [Data](#data) below).
+
+### Running the App
+
+```bash
+streamlit run SoccerLysis_ShotMap_Improved.py
 ```
-Converted the JSON-style location field into numerical [x, y] coordinates.  
 
-**Step 2 — User Input Filters**  
-```python
-team = st.selectbox("Select a team", df["team"].sort_values().unique())
-player = st.selectbox("Select a player", df[df["team"] == team]["player"].sort_values().unique())
-Enables interactive filtering by team and player through dropdowns.
+The app will open automatically in your browser at `http://localhost:8501`.
+
+## Data
+
+This app expects a CSV file named **`euros_2024_shot_map.csv`** in the same directory as the script (or inside a `Sport_Analysis/` subfolder).
+
 ```
-Automatically updates the player list once a team is selected.  
-
-**Step 3 — Data Filtering**  
-```python
-def filter_data(df, team, player):
-    if team:
-        df = df[df["team"] == team]
-    if player:
-        df = df[df["player"] == player]
-    return df
+your-project/
+├── SoccerLysis_ShotMap_Improved.py
+└── euros_2024_shot_map.csv
 ```
-Dynamically filters data for visualization based on user selections.  
-Ensures the display reflects the chosen subset (team or player).  
 
-**Step 4 — Pitch Creation**  
-```python
-pitch = VerticalPitch(pitch_type="statsbomb", half=True, pitch_color="green",
-                      line_color="white", stripe=True, stripe_color="#80f380")
-fig, ax = pitch.draw(figsize=[10, 10])
+The dataset should contain StatsBomb-style shot event data with (at minimum) the following columns:
+
+| Column                | Description                                  |
+|-----------------------|-----------------------------------------------|
+| `type`                | Event type (filtered to `"Shot"`)              |
+| `team`                | Team name                                     |
+| `player`              | Player name                                   |
+| `location`            | Shot coordinates as a list/array, e.g. `[x, y]` |
+| `shot_statsbomb_xg`   | Expected goals (xG) value for the shot         |
+| `shot_outcome`        | Outcome of the shot (e.g. `Goal`, `Saved`, `Off T`) |
+
+> If you don't have access to the original dataset, StatsBomb's open Euro 2024 event data is a good starting point.
+
+## Project Structure
+
 ```
-Creates a half-pitch layout, perfect for shot visualizations.  
-Visual appeal added using green pitch with light stripes.  
-
-**Step 5 — Shot Plotting**  
-```python
-pitch.scatter(
-    x=float(x["location"][0]),
-    y=float(x["location"][1]),
-    s=1000 * x["shot_statsbomb_xg"],
-    color="gold" if x["shot_outcome"] == "Goal" else "red",
-    edgecolor="black"
-)
+soccerlysis/
+├── SoccerLysis_ShotMap_Improved.py   # Main Streamlit application
+├── euros_2024_shot_map.csv           # Shot event dataset (not included)
+└── README.md
 ```
-Color coding:  
 
-🟡 Gold → Goals  
-🔴 Red → Missed or saved shots  
+## Tech Stack
 
-Bubble size proportional to xG → higher xG = larger circle  
+- [Streamlit](https://streamlit.io/) — app framework and UI
+- [pandas](https://pandas.pydata.org/) — data loading and aggregation
+- [matplotlib](https://matplotlib.org/) — plotting backend
+- [mplsoccer](https://mplsoccer.readthedocs.io/) — football pitch visualization
 
-Edge color and transparency enhance clarity.  
+## Roadmap
 
-**Step 6 — Visualization Output**  
-```python
-st.pyplot(fig)
-```
-Displays the resulting figure directly inside the Streamlit app.  
+- [ ] Add shot map filtering by match/stage
+- [ ] Export filtered data as CSV
+- [ ] Add xG timeline / shot sequence view
+- [ ] Deploy to Streamlit Community Cloud
 
-**4. Analytic Insights**  
+## Contributing
 
-This visualization provides key insights for analysts, coaches, or fans:  
+Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-**A. Shot Distribution**  
-Clusters of shots near the penalty box suggest tactical preference for short-range shooting.  
-Sparse long-range attempts may indicate disciplined or possession-based play.  
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes (`git commit -m "Add my feature"`)
+4. Push to the branch (`git push origin feature/my-feature`)
+5. Open a pull request
 
-**B. Expected Goals (xG) Quality**  
-Bubble size shows shot quality — players taking high-xG shots are positioned closer to goal.  
-Teams with high average xG per shot are creating better scoring chances rather than speculative attempts.  
+## License
 
-**C. Player-Specific Tendencies**  
-Some players may shoot predominantly from specific zones (e.g., left channel or penalty spot).  
-Consistent goal outcomes (gold bubbles) in similar coordinates may reveal preferred finishing zones.  
+This project is licensed under the [MIT License](LICENSE).
 
-**D. Tactical & Defensive Insights**  
-Comparing team maps highlights defensive weaknesses — e.g., repeated concessions from similar positions.  
-Teams with spread-out shot maps tend to have flexible attacking strategies.  
-](https://socceranalyst.streamlit.app/)
+## Acknowledgements
+
+- Shot event data structure inspired by [StatsBomb](https://statsbomb.com/) open data
+- Pitch visualizations powered by [mplsoccer](https://github.com/andrewRowlinson/mplsoccer)
