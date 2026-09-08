@@ -30,6 +30,8 @@ SoccerLysis lets you filter Euro 2024 shot event data by team, player, and shot 
 <!-- Add a screenshot or GIF of the app here -->
 ![SoccerLysis Screenshot](https://github.com/XeNoX36/SoccerLysis/blob/main/Soccerlysis.png)
 
+View App: https://soccerlysis-app.streamlit.app/
+
 ## Getting Started
 
 ### Prerequisites
