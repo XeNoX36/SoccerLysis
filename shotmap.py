@@ -93,23 +93,7 @@ Explore shooting patterns, expected goals (xG), finishing outcomes, and player p
 @st.cache_data
 def load_data():
 
-    base_dir = Path(__file__).resolve().parent
-
-    possible_paths = [
-        base_dir / "euros_2024_shot_map.csv",
-        base_dir / "Sport_Analysis" / "euros_2024_shot_map.csv",
-    ]
-
-    csv_path = None
-    for path in possible_paths:
-        if path.exists():
-            csv_path = path
-            break
-
-    if csv_path is None:
-        raise FileNotFoundError("Could not find euros_2024_shot_map.csv")
-
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv("euros_2024_shot_map.csv")
 
     # Keep only shot events
     if "type" in df.columns:
